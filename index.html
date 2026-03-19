@@ -317,11 +317,20 @@
 
     /* ── FADE-IN ANIMATIONS ── */
     .fade-up {
-      opacity: 0;
-      transform: translateY(18px);
+      opacity: 1;
+      transform: translateY(0);
       transition: opacity .6s ease, transform .6s ease;
     }
-    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: no-preference) {
+      .fade-up.animate {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      .fade-up.animate.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
     .fade-up:nth-child(2) { transition-delay: .1s; }
     .fade-up:nth-child(3) { transition-delay: .2s; }
     .fade-up:nth-child(4) { transition-delay: .3s; }
@@ -566,7 +575,7 @@
           <h2 id="contact-heading" class="contact-heading fade-up">Let's work<br><em style="font-style:italic;color:var(--accent)">together.</em></h2>
           <p class="contact-sub fade-up">Have an interesting project or just want to connect? Feel free to reach out.</p>
           <div class="contact-links fade-up">
-            <a href="mailto:you@example.com" class="contact-btn primary">Email me →</a>
+            <a href="/cdn-cgi/l/email-protection#4e37213b0e2b362f233e222b602d2123" class="contact-btn primary">Email me →</a>
             <a href="https://github.com/christophersavan" target="_blank" rel="noopener noreferrer" class="contact-btn">GitHub</a>
             <a href="https://www.linkedin.com/in/christophersavan/" target="_blank" rel="noopener noreferrer" class="contact-btn">LinkedIn</a>
             <a href="/resume.pdf" class="contact-btn">Résumé</a>
@@ -581,16 +590,19 @@
     <p>Designed &amp; built by Chris S. · 2026</p>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    // Intersection Observer for fade-in animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.12 });
+  <script>
+    if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+      document.querySelectorAll('.fade-up').forEach(el => el.classList.add('animate'));
 
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.08 });
 
-    // Kick hero elements in immediatel
+      document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+      document.querySelectorAll('#hero .fade-up').forEach(el => el.classList.add('visible'));
+    }
+  </script>
+</body>
+</html>
