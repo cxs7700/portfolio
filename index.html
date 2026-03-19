@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chris — Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:      #1a1a18;
+      --ink-soft: #6b6b67;
+      --ink-faint:#c4c4be;
+      --paper:    #f8f7f4;
+      --paper-2:  #f0efe9;
+      --accent:   #2a6449;
+      --accent-lt:#e8f0ec;
+      --radius:   6px;
+      --max:      720px;
+      --mono: 'DM Mono', monospace;
+      --serif: 'DM Serif Display', Georgia, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--mono);
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(248,247,244,0.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--ink-faint);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--ink-soft);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── LAYOUT ── */
+    main { padding-top: 56px; }
+    section { padding: 7rem 2rem; }
+    .inner { max-width: var(--max); margin: 0 auto; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: calc(100vh - 56px);
+      display: flex; align-items: center;
+      border-bottom: 1px solid var(--ink-faint);
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--accent-lt);
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 99px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-sub {
+      color: var(--ink-soft);
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      font-size: 14px;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--ink);
+      color: var(--paper);
+      text-decoration: none;
+      padding: 12px 22px;
+      border-radius: var(--radius);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: background .2s, transform .15s;
+    }
+    .hero-cta:hover { background: var(--accent); transform: translateY(-1px); }
+    .hero-cta .arrow { transition: transform .2s; }
+    .hero-cta:hover .arrow { transform: translateX(3px); }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 3rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--ink-faint);
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--paper); border-bottom: 1px solid var(--ink-faint); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-heading {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+    .about-body { color: var(--ink-soft); margin-bottom: 1.2rem; }
+    .skills-list {
+      display: flex; flex-wrap: wrap; gap: .5rem;
+      margin-top: 2rem;
+    }
+    .skill-tag {
+      background: var(--paper-2);
+      border: 1px solid var(--ink-faint);
+      color: var(--ink-soft);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: var(--radius);
+    }
+    .about-stats { display: flex; flex-direction: column; gap: 2rem; }
+    .stat { border-left: 2px solid var(--accent); padding-left: 1.2rem; }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .stat-desc { color: var(--ink-soft); font-size: 12px; margin-top: .25rem; }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--paper-2); border-bottom: 1px solid var(--ink-faint); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--paper);
+      border: 1px solid var(--ink-faint);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      transition: border-color .2s, box-shadow .2s, transform .2s;
+      display: flex; flex-direction: column;
+    }
+    .project-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 24px rgba(42,100,73,.08);
+      transform: translateY(-2px);
+    }
+    .project-type {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .75rem;
+    }
+    .project-title {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      margin-bottom: .75rem;
+    }
+    .project-desc { color: var(--ink-soft); font-size: 13px; flex: 1; margin-bottom: 1.5rem; }
+    .project-stack { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: 1.5rem; }
+    .stack-tag {
+      background: var(--paper-2);
+      color: var(--ink-soft);
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      padding: 2px 8px;
+      border-radius: 99px;
+      border: 1px solid var(--ink-faint);
+    }
+    .project-links { display: flex; gap: 1rem; margin-top: auto; }
+    .project-link {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ink-faint);
+      padding-bottom: 1px;
+      transition: color .2s, border-color .2s;
+    }
+    .project-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--paper); border-bottom: 1px solid var(--ink-faint); }
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 2rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--ink-faint);
+    }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-date {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--ink-faint);
+      padding-top: 4px;
+    }
+    .job-company {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      margin-bottom: .25rem;
+    }
+    .job-title {
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .75rem;
+    }
+    .job-desc { color: var(--ink-soft); font-size: 13px; }
+    .job-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .75rem; }
+    .job-tag {
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      color: var(--ink-soft);
+      background: var(--paper-2);
+      border: 1px solid var(--ink-faint);
+      padding: 2px 8px;
+      border-radius: 99px;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--paper-2); }
+    .contact-inner { text-align: center; max-width: 520px; margin: 0 auto; }
+    .contact-heading {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      margin-bottom: 1rem;
+    }
+    .contact-sub { color: var(--ink-soft); margin-bottom: 2.5rem; }
+    .contact-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; }
+    .contact-btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 11px 22px;
+      border-radius: var(--radius);
+      border: 1px solid var(--ink-faint);
+      color: var(--ink);
+      transition: background .2s, border-color .2s, color .2s, transform .15s;
+    }
+    .contact-btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); transform: translateY(-1px); }
+    .contact-btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .contact-btn.primary:hover { background: var(--accent); border-color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--ink-faint);
+      padding: 2rem;
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--ink-faint);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 1.2rem; }
+      .nav-links { gap: 1.2rem; }
+      section { padding: 5rem 1.2rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .timeline-item { grid-template-columns: 1fr; gap: .5rem; }
+    }
+
+    /* ── FADE-IN ANIMATIONS ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up:nth-child(2) { transition-delay: .1s; }
+    .fade-up:nth-child(3) { transition-delay: .2s; }
+    .fade-up:nth-child(4) { transition-delay: .3s; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav role="navigation" aria-label="Main navigation">
+    <a href="#hero" class="nav-logo">CS.</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="inner">
+        <h1 class="hero-name">Chris <em>S.</em></h1>
+        <p class="hero-sub">Web Engineer.</p>
+        <a href="#contact" class="hero-cta">
+          Let's build <span class="arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" aria-labelledby="about-heading">
+      <div class="inner">
+        <p class="section-label">About</p>
+        <div class="about-grid">
+          <div>
+            <h2 id="about-heading" class="about-heading fade-up">I care about craft,<br>not just code.</h2>
+            <p class="about-body fade-up">Hi, I'm Chris — a web engineer with 5+ years of experience building scalable, event-driven web applications. I work across the full stack with a strong focus on frontend architecture, cloud infrastructure, and developer tooling.</p>
+            <p class="about-body fade-up">I thrive on solving complex problems — from orchestrating AWS workflows to crafting accessible, multi-domain user experiences. I hold a B.S. in Software Engineering from Rochester Institute of Technology.</p>
+            <div class="skills-list fade-up">
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">TypeScript</span>
+              <span class="skill-tag">SQL</span>
+              <span class="skill-tag">HTML</span>
+              <span class="skill-tag">CSS</span>
+              <span class="skill-tag">React</span>
+              <span class="skill-tag">Next.js</span>
+              <span class="skill-tag">Redux</span>
+              <span class="skill-tag">Tailwind CSS</span>
+              <span class="skill-tag">Node.js</span>
+              <span class="skill-tag">AWS Lambda</span>
+              <span class="skill-tag">Step Functions</span>
+              <span class="skill-tag">CloudFormation</span>
+              <span class="skill-tag">EventBridge</span>
+              <span class="skill-tag">Jenkins</span>
+              <span class="skill-tag">Cypress</span>
+              <span class="skill-tag">Jest</span>
+              <span class="skill-tag">Mocha</span>
+              <span class="skill-tag">Elasticsearch</span>
+            </div>
+          </div>
+          <div class="about-stats">
+            <div class="stat fade-up">
+              <div class="stat-num">5+</div>
+              <div class="stat-desc">Years of professional experience</div>
+            </div>
+            <div class="stat fade-up">
+              <div class="stat-num">5</div>
+              <div class="stat-desc">Companies worked at</div>
+            </div>
+            <div class="stat fade-up">
+              <div class="stat-num">RIT</div>
+              <div class="stat-desc">B.S. Software Engineering, 2021</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" aria-labelledby="projects-heading">
+      <div class="inner">
+        <p class="section-label">Projects</p>
+        <h2 id="projects-heading" class="about-heading fade-up" style="margin-bottom:2.5rem">Things I've built.</h2>
+        <div class="projects-grid">
+
+          <article class="project-card fade-up">
+            <div class="project-type">GoDaddy · AWS</div>
+            <h3 class="project-title">Event-Driven State Machine</h3>
+            <p class="project-desc">Designed and maintained an event-driven workflow orchestrator using AWS Step Functions, Lambda, CloudFormation, and EventBridge — handling key customer and agent flows at scale, with custom Bash tooling for resilience and backfill operations.</p>
+            <div class="project-stack">
+              <span class="stack-tag">AWS Step Functions</span>
+              <span class="stack-tag">Lambda</span>
+              <span class="stack-tag">EventBridge</span>
+              <span class="stack-tag">CloudFormation</span>
+              <span class="stack-tag">Bash</span>
+            </div>
+          </article>
+
+          <article class="project-card fade-up">
+            <div class="project-type">GoDaddy · Frontend</div>
+            <h3 class="project-title">Multi-Domain Next.js App</h3>
+            <p class="project-desc">Spearheaded the configuration of an existing Next.js application to serve multiple domains based on employee authorization levels, bridging the experience between customers and internal agents.</p>
+            <div class="project-stack">
+              <span class="stack-tag">Next.js</span>
+              <span class="stack-tag">TypeScript</span>
+              <span class="stack-tag">React</span>
+            </div>
+          </article>
+
+          <article class="project-card fade-up">
+            <div class="project-type">GoDaddy · Integration</div>
+            <h3 class="project-title">Real-Time Website Collaboration</h3>
+            <p class="project-desc">Integrated a third-party service into the core product, enabling customers and agents to collaboratively annotate websites in real-time — reducing SLAs compared to the legacy ticket-based support approach.</p>
+            <div class="project-stack">
+              <span class="stack-tag">JavaScript</span>
+              <span class="stack-tag">React</span>
+              <span class="stack-tag">Node.js</span>
+            </div>
+          </article>
+
+          <article class="project-card fade-up">
+            <div class="project-type">RIT · Accessibility</div>
+            <h3 class="project-title">Accessible Learning Labs</h3>
+            <p class="project-desc">Led a codebase refactor with a team of 5, consolidating all labs into a single web application — cutting labor costs by 50%+, improving scalability, and achieving full accessibility compliance. Also established the project's first end-to-end test suite.</p>
+            <div class="project-stack">
+              <span class="stack-tag">JavaScript</span>
+              <span class="stack-tag">Cypress</span>
+              <span class="stack-tag">HTML</span>
+              <span class="stack-tag">CSS</span>
+            </div>
+          </article>
+
+          <article class="project-card fade-up">
+            <div class="project-type">Urspace · Product</div>
+            <h3 class="project-title">Web Traffic Analytics Dashboard</h3>
+            <p class="project-desc">Developed APIs and UI data visualization tools that gave users insight into incoming web traffic on their portfolio sites — directly incentivizing signups, engagement, and subscription revenue growth.</p>
+            <div class="project-stack">
+              <span class="stack-tag">React</span>
+              <span class="stack-tag">Node.js</span>
+              <span class="stack-tag">Elasticsearch</span>
+              <span class="stack-tag">SQL</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" aria-labelledby="experience-heading">
+      <div class="inner">
+        <p class="section-label">Experience</p>
+        <h2 id="experience-heading" class="about-heading fade-up" style="margin-bottom:2.5rem">Where I've worked.</h2>
+        <div class="timeline" role="list">
+
+          <div class="timeline-item fade-up" role="listitem">
+            <div class="timeline-date">Apr 2022 — Present</div>
+            <div>
+              <div class="job-company">GoDaddy</div>
+              <div class="job-title">Software Development Engineer II</div>
+              <p class="job-desc">Designed and maintained an event-driven state machine orchestrating key customer and agent workflows using AWS Step Functions, Lambda, CloudFormation, and EventBridge. Streamlined post-outage recovery with custom Bash tooling. Led a multi-domain Next.js initiative and integrated a real-time website annotation service that reduced support SLAs.</p>
+              <div class="job-tags">
+                <span class="job-tag">TypeScript</span>
+                <span class="job-tag">Next.js</span>
+                <span class="job-tag">React</span>
+                <span class="job-tag">Node.js</span>
+                <span class="job-tag">AWS</span>
+                <span class="job-tag">Step Functions</span>
+                <span class="job-tag">EventBridge</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-up" role="listitem">
+            <div class="timeline-date">Oct 2019 — May 2021</div>
+            <div>
+              <div class="job-company">Urspace</div>
+              <div class="job-title">Software Engineer</div>
+              <p class="job-desc">Developed APIs and UI data visualization tools for monitoring web traffic on user portfolio sites, driving signups and subscription growth. Built out premium features that meaningfully decreased churn rate and increased recurring revenue.</p>
+              <div class="job-tags">
+                <span class="job-tag">React</span>
+                <span class="job-tag">Node.js</span>
+                <span class="job-tag">Elasticsearch</span>
+                <span class="job-tag">SQL</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-up" role="listitem">
+            <div class="timeline-date">Aug 2020 — May 2021</div>
+            <div>
+              <div class="job-company">RIT Accessible Learning Labs</div>
+              <div class="job-title">Software Engineer</div>
+              <p class="job-desc">Refactored the codebase with a team of 5, merging all labs into a unified web application — cutting labor costs by 50%+, improving scalability, and achieving accessibility compliance. Introduced the project's first comprehensive end-to-end test suite.</p>
+              <div class="job-tags">
+                <span class="job-tag">JavaScript</span>
+                <span class="job-tag">Cypress</span>
+                <span class="job-tag">HTML</span>
+                <span class="job-tag">CSS</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-up" role="listitem">
+            <div class="timeline-date">Jan 2019 — Jul 2019</div>
+            <div>
+              <div class="job-company">GeekHive</div>
+              <div class="job-title">Associate Developer</div>
+              <p class="job-desc">Collaborated in a team of 2 to build mobile-first, responsive marketing websites for multiple clients. Participated directly in client meetings, requirements gathering, code reviews, and QA in an agile environment.</p>
+              <div class="job-tags">
+                <span class="job-tag">JavaScript</span>
+                <span class="job-tag">HTML</span>
+                <span class="job-tag">CSS</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-up" role="listitem">
+            <div class="timeline-date">Jun 2018 — Aug 2018</div>
+            <div>
+              <div class="job-company">KidPass <span style="font-family:var(--mono);font-size:11px;color:var(--ink-faint);font-weight:400">(acquired by BEGiN)</span></div>
+              <div class="job-title">Software Engineer Intern</div>
+              <p class="job-desc">Implemented HMAC-based authentication for internal web service tools. Gained hands-on experience in agile practices — standups, sprint retrospectives, backlog grooming, and Git workflows — at a Series A YCombinator-backed startup.</p>
+              <div class="job-tags">
+                <span class="job-tag">JavaScript</span>
+                <span class="job-tag">Node.js</span>
+                <span class="job-tag">HMAC</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" aria-labelledby="contact-heading">
+      <div class="inner">
+        <div class="contact-inner">
+          <h2 id="contact-heading" class="contact-heading fade-up">Let's work<br><em style="font-style:italic;color:var(--accent)">together.</em></h2>
+          <p class="contact-sub fade-up">Have an interesting project or just want to connect? Feel free to reach out.</p>
+          <div class="contact-links fade-up">
+            <a href="mailto:you@example.com" class="contact-btn primary">Email me →</a>
+            <a href="https://github.com/christophersavan" target="_blank" rel="noopener noreferrer" class="contact-btn">GitHub</a>
+            <a href="https://www.linkedin.com/in/christophersavan/" target="_blank" rel="noopener noreferrer" class="contact-btn">LinkedIn</a>
+            <a href="/resume.pdf" class="contact-btn">Résumé</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Designed &amp; built by Chris S. · 2026</p>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // Intersection Observer for fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Kick hero elements in immediatel
